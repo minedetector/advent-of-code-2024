@@ -33,6 +33,11 @@ func main() {
         }
         if isSafe(code) {
             safeReports1++
+            safeReports2++
+        } else if isSafeWithDampener(code) {
+            safeReports2++
+        } else {
+            fmt.Println(code)
         }
     }
 
@@ -59,8 +64,19 @@ func isSafe(code []int) bool {
         return false
     }
 
-    fmt.Println("Correct: ", code)
     return true
+}
+
+func isSafeWithDampener(code []int) bool {
+    for i := 0; i<len(code); i++ {
+        orderChecker := RemoveIndex(code, i)
+
+        if isSafe(orderChecker) {
+            //fmt.Println("Correct: ", code)
+            return true
+        }
+    }
+    return false
 }
 
 func abs(x int) int {
@@ -68,4 +84,10 @@ func abs(x int) int {
         return -x
     }
     return x
+}
+
+func RemoveIndex(s []int, index int) []int {
+    result := make([]int, 0, len(s)-1)
+    result = append(result, s[:index]...)
+    return append(result, s[index+1:]...)
 }
